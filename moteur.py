@@ -7,7 +7,8 @@ class Moteur : # Moteur
         self.dir.off()
         
         self.vit = PWM ( Pin(vit) )
-        self.vit.duty(0)
+        self.vit.duty(400)
+        self.vit.freq(200)
         
         self.ctrl = Pin(ctrl, Pin.IN)
         self.ctrl.irq(trigger = Pin.IRQ_RISING, handler=self.irq_increment_cptr)
@@ -31,18 +32,24 @@ class Moteur : # Moteur
         
     def reculer ( self ):
         if self.dir.value() :
-            self.dir.off()
+            self.dir.off() # avance
         else :
-            self.dir.on()
+            self.dir.on() # recule
 
 
 if __name__ == "__main__":
     
-    motd = Moteur (27,26,25)
-    motg = Moteur (34,35,16)
-    motd.reculer()
-    motd.modif_vit(700)
-    motg.modif_vit(1023-700)
+    bp = Pin(13,Pin.IN)
+    
+    running = False
+    while running == False:
+        appui = bp.value()
+        if appui == 1:
+            running = True
+    
+    motd = Moteur (27,26,35)
+    motg = Moteur (16,25,34)
+    motg.reculer()
     sleep(1)
     print(motd.cptr)
     print(motg.cptr)

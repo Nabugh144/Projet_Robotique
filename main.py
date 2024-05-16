@@ -4,7 +4,7 @@ from pid import PID
 from pcf8574 import PCF8574,binaire_octet
 from machine import I2C, Pin
 from moteur import Moteur
-from time import tick_ms, ticks_diff
+from time import ticks_ms, ticks_diff
 
 i2c = I2C(1, scl=Pin(21), sda=Pin(22), freq=400000)
 pcf = PCF8574(i2c, 0x20)
